@@ -2,6 +2,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
 targetNamespace="http://janani.com/courses" 
 xmlns:tns="http://janani.com/courses" elementFormDefault="qualified">
+
 	<xs:element name="GetCourseDetailsRequest">	
         <xs:complexType>
 			<xs:sequence>
