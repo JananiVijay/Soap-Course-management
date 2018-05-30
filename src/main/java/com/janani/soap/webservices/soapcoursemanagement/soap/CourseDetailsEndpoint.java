@@ -16,6 +16,7 @@ import com.janani.courses.GetAllCourseDetailsResponse;
 import com.janani.courses.GetCourseDetailsRequest;
 import com.janani.courses.GetCourseDetailsResponse;
 import com.janani.soap.webservices.soapcoursemanagement.soap.bean.Course;
+import com.janani.soap.webservices.soapcoursemanagement.soap.exception.CourseNotFoundException;
 import com.janani.soap.webservices.soapcoursemanagement.soap.service.CourseDetailsService;
 import com.janani.soap.webservices.soapcoursemanagement.soap.service.CourseDetailsService.Status;
 
@@ -35,6 +36,9 @@ public class CourseDetailsEndpoint {
 	@ResponsePayload
 	public GetCourseDetailsResponse processGetCourseDetailsRequest(@RequestPayload GetCourseDetailsRequest request) {		
 		Course course = service.findById(request.getId());		
+		
+		if(course==null)
+			throw new CourseNotFoundException("Invalid Course Id " + request.getId());
 		return mapCourseDetails(course);
 	}
 
