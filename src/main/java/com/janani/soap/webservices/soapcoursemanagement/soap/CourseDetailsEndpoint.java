@@ -17,6 +17,7 @@ import com.janani.courses.GetCourseDetailsRequest;
 import com.janani.courses.GetCourseDetailsResponse;
 import com.janani.soap.webservices.soapcoursemanagement.soap.bean.Course;
 import com.janani.soap.webservices.soapcoursemanagement.soap.service.CourseDetailsService;
+import com.janani.soap.webservices.soapcoursemanagement.soap.service.CourseDetailsService.Status;
 
 @Endpoint
 public class CourseDetailsEndpoint {
@@ -73,12 +74,19 @@ public class CourseDetailsEndpoint {
 	@PayloadRoot(namespace="http://janani.com/courses", localPart="DeleteCourseDetailsRequest")
 	@ResponsePayload
 	public DeleteCourseDetailsResponse deleteCourseDetailsRequest(@RequestPayload DeleteCourseDetailsRequest request) {
-		
-		int status = service.deleteById(request.getId());
-		
+
+		Status status = service.deleteById(request.getId());
+
 		DeleteCourseDetailsResponse response = new DeleteCourseDetailsResponse();
-		response.setStatus(status);
+		response.setStatus(mapStatus(status));
+
 		return response;
+	}
+
+	private com.janani.courses.Status mapStatus(Status status) {
+		if(status == Status.FAILURE)
+			return com.janani.courses.Status.FAILURE;
+		return com.janani.courses.Status.SUCCESS;
 	}
 
 }
